@@ -14,6 +14,8 @@ class CurrencyExchangeRateView(APIView):
         except requests.exceptions.Timeout:
             return Response({'detail': 'connection to outer api timeout'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
         else:
+            if response.status_code >= 400:
+                return Response({'detail': 'some problem with outer api'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
             response_in_json = response.json()
             exchange_rate = get_exchange_rate_from_json_response(response_in_json, currency)
             return Response({'exchange-rate': exchange_rate}, status=status.HTTP_200_OK)
