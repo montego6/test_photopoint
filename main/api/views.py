@@ -11,7 +11,7 @@ from . import consts
 class CurrencyExchangeRateView(APIView):
     def get(self, request, currency):
         try:
-            response = requests.get(consts.EXCHANGE_API_URL, timeout=consts.API_TIMEOUT)
+            response = requests.get(consts.EXCHANGE_API_URL, timeout=consts.API_TIMEOUT_SECS)
         except requests.exceptions.Timeout:
             return Response(
                 {"detail": "connection to external api timeout"},
